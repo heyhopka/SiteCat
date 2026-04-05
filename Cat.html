@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>У моего кота ВИЧ. Я могу заразиться?</title>
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --paper: rgba(255,255,255,0.92);
+      --text: #2f2a24;
+      --muted: #746b61;
+      --line: rgba(88, 74, 57, 0.12);
+      --accent: #b7865b;
+      --shadow: 0 18px 50px rgba(70, 50, 28, 0.08);
+      --radius: 26px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.85), transparent 35%),
+        radial-gradient(circle at top right, rgba(234,216,199,0.45), transparent 30%),
+        linear-gradient(180deg, #fbf8f2 0%, var(--bg) 100%);
+      line-height: 1.8;
+    }
+
+    img { display: block; width: 100%; height: auto; }
+
+    .page {
+      width: min(calc(100% - 24px), 1280px);
+      margin: 0 auto;
+      padding: 24px 0 80px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 92vh;
+      border-radius: 34px;
+      display: grid;
+      align-items: end;
+      box-shadow: var(--shadow);
+      background: #ddd;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(30,24,18,0.08) 0%, rgba(30,24,18,0.16) 28%, rgba(30,24,18,0.58) 100%),
+        linear-gradient(90deg, rgba(255,248,240,0.03), rgba(255,248,240,0));
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) contrast(1.02);
+      transform: scale(1.03);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      padding: clamp(28px, 5vw, 56px);
+      max-width: 760px;
+      color: #fffdf9;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(8px);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5.3vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .hero__lead {
+      margin-top: 22px;
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      line-height: 1.65;
+      max-width: 680px;
+      color: rgba(255,252,247,0.92);
+    }
+
+    .meta {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      font-size: 0.95rem;
+      color: rgba(255,252,247,0.82);
+    }
+
+    .article-shell {
+      width: min(100%, var(--max));
+      margin: -56px auto 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .intro-card,
+    .section,
+    .quote-block,
+    .facts,
+    .story,
+    .care {
+      background: var(--paper);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      padding: 30px 28px;
+      margin-bottom: 18px;
+    }
+
+    .intro-card p {
+      margin: 0;
+      font-size: 1.36rem;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .toc button {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      border-radius: 18px;
+      padding: 14px 10px;
+      font: inherit;
+      color: var(--text);
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .toc button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(183, 134, 91, 0.42);
+      background: #fff;
+    }
+
+    .content {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .section {
+      padding: clamp(26px, 4vw, 40px);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .section-number {
+      color: var(--accent);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    .section p {
+      margin: 0 0 22px;
+      font-size: 1.32rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .quote-block {
+      margin: 30px 0;
+      padding: 28px 28px 24px;
+      border-left: 4px solid var(--accent);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,242,235,0.92));
+      position: relative;
+    }
+
+    .quote-block::before {
+      content: "“";
+      position: absolute;
+      top: 10px;
+      left: 18px;
+      font-size: 4rem;
+      line-height: 1;
+      color: rgba(183, 134, 91, 0.2);
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    blockquote {
+      margin: 0;
+      font-size: clamp(1.34rem, 2.6vw, 1.8rem);
+      line-height: 1.8;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    cite {
+      display: block;
+      margin-top: 16px;
+      font-style: normal;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .media {
+      margin: 28px 0;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .media::after {
+      content: attr(data-caption);
+      position: absolute;
+      left: 16px;
+      bottom: 16px;
+      max-width: calc(100% - 32px);
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.78);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .facts, .care { padding: 24px; }
+
+    .facts h3, .story h3, .care h3 {
+      margin: 0 0 14px;
+      font-size: 1.45rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .facts ul, .care ul { margin: 0; padding-left: 20px; }
+
+    .facts li, .care li {
+      margin-bottom: 12px;
+      font-size: 1.24rem;
+    }
+
+    .story {
+      padding: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(244,236,226,0.86));
+    }
+
+    .story p { margin: 0; font-size: 1.26rem; }
+
+    .footer-note {
+      width: min(100%, var(--max));
+      margin: 18px auto 0;
+      padding: 18px 4px 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      text-align: center;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .toc { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(calc(100% - 20px), 1180px);
+        padding-top: 10px;
+      }
+      .hero {
+        min-height: 78vh;
+        border-radius: 26px;
+      }
+      .article-shell { margin-top: -32px; }
+      .intro-card, .section, .quote-block, .facts, .story, .care { border-radius: 22px; }
+      .toc { grid-template-columns: 1fr; }
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .section p, .facts li, .care li, .story p, .intro-card p { font-size: 1.14rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero reveal">
+      <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?auto=format&fit=crop&w=1600&q=80" alt="Светлый портрет домашнего кота крупным планом" />
+      <div class="hero__content">
+        <div class="kicker">Лонгрид • здоровье животных</div>
+        <h1>У моего кота ВИЧ.<br />Я могу заразиться?</h1>
+        <p class="hero__lead">
+          Врач ответил на самые волнующие вопросы о ВИЧ у кошек. Спокойно, понятно и без лишнего страха.
+        </p>
+        <div class="meta"></div>
+      </div>
+    </section>
+
+    <div class="article-shell">
+      <section class="intro-card reveal">
+        <p>
+          ВИЧ — всем известное заболевание, но мало кто знает, что иммунодефициту подвержены не только люди, но и кошки. Кошачий ВИЧ, или ВИК (вирус иммунодефицита кошек), вызывает много вопросов и самые разные эмоции у любителей домашних животных. Разобраться нам помогла терапевт ветеринарной клиники «Биота» Дария Солодовникова.
+        </p>
+        <div class="toc">
+          <button data-target="#denial">Отрицание</button>
+          <button data-target="#anger">Гнев</button>
+          <button data-target="#bargaining">Торг</button>
+          <button data-target="#depression">Депрессия</button>
+          <button data-target="#acceptance">Принятие</button>
+        </div>
+      </section>
+
+      <div class="content">
+        <section class="section reveal" id="denial">
+          <div class="section-header">
+            <h2>Отрицание</h2>
+            <div class="section-number">Этап 1</div>
+          </div>
+          <p>
+            Когда человек впервые узнаёт про кошачий ВИЧ, первая реакция — удивление: «Неужели у моего пушистика может быть такая страшная болезнь?» Такая болезнь действительно бывает, но она не такая страшная, как кажется.
+          </p>
+          <p>
+            Вирус иммунодефицита кошек похож на вирус СПИДа у людей, но диагноз может поставить только врач. Симптомы ВИК нередко совпадают с признаками других заболеваний, поэтому самостоятельно делать выводы не стоит.
+          </p>
+
+          <div class="quote-block">
+            <blockquote>
+              «Основные симптомы: вялость, повышение температуры тела, снижение или отсутствие аппетита, диарея, стоматит, потеря веса, увеличение лимфатических узлов, тремор, нарушения сна, анизокория, судороги».
+            </blockquote>
+            <cite>Дария Солодовникова, терапевт ветеринарной клиники «Биота»</cite>
+          </div>
+
+          <div class="media" data-caption="Иногда пугает не сама болезнь, а её название. Именно поэтому в приютах чаще говорят просто: «иммунодефицит».">
+            <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=1400&q=80" alt="Спокойный домашний кот в светлом интерьере" />
+          </div>
+
+          <p>
+            Работники приютов редко используют формулировку «кошачий ВИЧ» — не хотят пугать новых хозяев страшными словами. Ирина Макаренко, волонтёр приюта «Будка Омск», поделилась лучшим способом донести до новых хозяев, что их питомец болен.
+          </p>
+
+          <div class="story">
+            <h3>Как это звучит для будущих хозяев</h3>
+            <p>
+              «Может, если бы мы назвали эту болезнь “кошачий СПИД” или “ВИЧ”, люди бы пугались. А когда говоришь “иммунодефицит” — нет, не боятся. Болезнь одна, но формулировка воспринимается очень по-разному».
+            </p>
+          </div>
+        </section>
+
+        <section class="section reveal" id="anger">
+          <div class="section-header">
+            <h2>Гнев</h2>
+            <div class="section-number">Этап 2</div>
+          </div>
+          <p>
+            «Получается, моя семья в опасности? Мои дети могут заразиться?» Когда люди слышат аббревиатуру, схожую с «ВИЧ», мысли о том, что можно заразиться, сразу приходят в голову.
+          </p>
+          <p>
+            Солодовникова рассказала о риске заражения: «Вирус иммунодефицита кошек не опасен для людей, так как вирус является видоспецифичным, то есть встречается только у определённого вида. Заразиться могут только представители семейства кошачьих и гиены. Вы, ваша семья и другие животные в безопасности. В зону риска попадают только другие кошки».
+          </p>
+
+          <div class="quote-block">
+            <blockquote>
+              «Вы, ваша семья и другие животные в безопасности. В зону риска попадают только другие кошки».
+            </blockquote>
+            <cite>Дария Солодовникова</cite>
+          </div>
+
+          <p>
+            Ирина Макаренко добавляет, что в обычной жизни человеку от кошек скорее стоит опасаться лишая или глистов, и то только при несоблюдении гигиены. Сам по себе ВИК для людей не представляет угрозы.
+          </p>
+        </section>
+
+        <section class="section reveal" id="bargaining">
+          <div class="section-header">
+            <h2>Торг</h2>
+            <div class="section-number">Этап 3</div>
+          </div>
+          <p>
+            Вы взяли кошку с ВИК. Как её теперь лечить? Вакцина существует, но у нас она пока недоступна.
+          </p>
+          <p>
+            «Австралийское исследование определило, что уровень защиты вакцины составляет 56 %. Вакцинация против ВИК помечена как “необязательная” и рекомендована только для кошек с высоким риском заражения: если есть доступ на улицу или животное живёт вместе с кошкой с ВИК».
+          </p>
+
+          <div class="facts">
+            <h3>Как передаётся ВИК</h3>
+            <ul>
+              <li>при драках и укусах;</li>
+              <li>от матери котятам — возможно, но редко;</li>
+              <li>при вылизывании и через общие миски — маловероятно;</li>
+              <li>при спаривании — редко, но риск повышается при драках;</li>
+              <li>при переливании крови от заражённой кошки.</li>
+            </ul>
+          </div>
+
+          <p>
+            Если исключить из жизни питомца ситуации, в которых возможен такой контакт, риск заражения других кошек резко снижается. Главный принцип здесь — безопасная и спокойная домашняя среда.
+          </p>
+
+          <div class="media" data-caption="Для кошки с ВИК важны предсказуемость, домашний режим и минимум опасных контактов.">
+            <img src="https://images.unsplash.com/photo-1511044568932-338cba0ad803?auto=format&fit=crop&w=1400&q=80" alt="Кот отдыхает на светлом пледе у окна" />
+          </div>
+        </section>
+
+        <section class="section reveal" id="depression">
+          <div class="section-header">
+            <h2>Депрессия</h2>
+            <div class="section-number">Этап 4</div>
+          </div>
+          <p>
+            Так что, мой кот быстро умрет? Главное заблуждение: если у моей кошки/кота обнаружили вирус иммунодефицита, то он проживёт недолго. У кошек с ВИК разная продолжительность жизни.
+          </p>
+          <p>
+            Некоторые кошки с ВИК живут столько же, сколько и здоровые. Многое зависит от регулярного наблюдения у врача, питания, образа жизни и того, насколько бережно хозяева относятся к любым источникам инфекции.
+          </p>
+
+          <div class="story">
+            <h3>История Гарри</h3>
+            <p>
+              Омичка Мария Козлова взяла из приюта кота Гарри. К ветеринару семья обратилась за советом — кот плохо ел. «Я узнала, что у моего кота Гарри ВИК случайно, когда мы сдавали анализы из-за другой проблемы. Конечно, я испугалась — звучит это страшно. Врач долго убеждала меня, что всё в порядке: да, это усложнит лечение, но нет ничего смертельного. Но всё равно было ощущение, что меня обманывают, и что я скоро потеряю кота».
+            </p>
+          </div>
+        </section>
+
+        <section class="section reveal" id="acceptance">
+          <div class="section-header">
+            <h2>Принятие</h2>
+            <div class="section-number">Этап 5</div>
+          </div>
+          <p>
+            Первый и самый обязательный пункт — обратиться к ветеринару и получить рекомендации по лечению. Будьте готовы к тому, что каждые полгода хозяевам кошек с ВИК нужно возить питомцев к ветеринару на обследование. Важно отслеживать любые изменения в состоянии здоровья кошки.
+          </p>
+          <p>
+            Кормить таких кошек лучше промышленным кормом: сухим и влажным, который продаётся в магазине. Не стоит давать животному сырое мясо, яйца и молоко. В таких продуктах могут быть бактерии и паразиты.
+          </p>
+
+          <div class="care">
+            <h3>Что важно в уходе</h3>
+            <ul>
+              <li>регулярно показывать питомца ветеринару;</li>
+              <li>следить за любыми изменениями аппетита, веса и поведения;</li>
+              <li>кормить безопасным, качественным кормом;</li>
+              <li>избегать сырой пищи;</li>
+              <li>снижать уровень стресса и не менять резко условия жизни;</li>
+              <li>не заводить других кошек, если это создаёт риск заражения.</li>
+            </ul>
+          </div>
+
+          <div class="quote-block" style="margin-top: 32px; padding: 32px; background: linear-gradient(180deg, rgba(255,255,255,1), rgba(240,228,215,0.95)); border-left-width: 6px;">
+            <blockquote>
+              «Сейчас мы всей семьёй уже шутим, что кот «нагулял ВИЧ». Конечно, болезнь доставляет хлопоты, но она не смертельна — ни для нас, ни для кота. Гарри чувствует себя отлично: мы кормим его «правильной» едой, возим к врачам на контроль, и в целом всё замечательно. Правда, других кошек мы уже не заведём, но нам это и не нужно».
+            </blockquote>
+            <cite>Мария Козлова</cite>
+          </div>
+
+          <div class="media" data-caption="Гарри чувствует себя отлично, а семья приняла диагноз спокойно и с заботой.">
+            <img src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=1400&q=80" alt="Рыжий домашний кот в светлом интерьере" />
+          </div>
+        </section>
+      </div>
+    </div>
+
+    
+  </main>
+
+  <script>
+    document.querySelectorAll('[data-target]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = document.querySelector(button.dataset.target);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
